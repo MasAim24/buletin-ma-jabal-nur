@@ -4,7 +4,7 @@
  * ============================================================================
  */
 
-const CACHE_VERSION = 'alkahfi-pwa-v5.2';
+const CACHE_VERSION = 'alkahfi-pwa-v7.0';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const RUNTIME_CACHE = `${CACHE_VERSION}-runtime`;
 
@@ -15,7 +15,13 @@ const PRECACHE_ASSETS = [
   './icon-192.png',
   './icon-512.png',
   './icon-maskable-512.png',
-  './apple-touch-icon.png'
+  './apple-touch-icon.png',
+  './assets/berita-1-duka-cita-arwin.jpg',
+  './assets/berita-2-umroh-bmt.jpg',
+  './assets/berita-3-juara-umum-hsn.jpg',
+  './assets/berita-4-study-banding.jpg',
+  './assets/berita-5-ekskul-beladiri.jpg',
+  './assets/berita-6-silaturahim-kemenag.jpg'
 ];
 
 self.addEventListener('install', (event) => {
