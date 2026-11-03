@@ -1,0 +1,99 @@
+{
+  "id": "buletin-al-kahfi-ma-jabal-nur-kandis",
+  "name": "Buletin Al-Kahfi — MA Jabal Nur Kandis",
+  "short_name": "Buletin Al-Kahfi",
+  "description": "Portal Buletin Digital & Cetak Terpadu Madrasah Aliyah (MA) Jabal Nur Kandis — Kajian Utama, Tausiyah Jumat, Kabar Madrasah, Karya Siswa & Pojok Sastra.",
+  "lang": "id-ID",
+  "dir": "ltr",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "window-controls-overlay",
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "any",
+  "theme_color": "#044E3A",
+  "background_color": "#FAF8F3",
+  "categories": [
+    "education",
+    "news",
+    "books",
+    "magazines"
+  ],
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Baca Buletin Terbaru",
+      "short_name": "Baca Buletin",
+      "description": "Buka kajian utama dan edisi terbaru Buletin Al-Kahfi",
+      "url": "./?view=portal",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Kirim Karya Siswa & Guru",
+      "short_name": "Kirim Karya",
+      "description": "Kirim naskah kajian, opini, berita, atau sastra ke Redaksi",
+      "url": "./?view=submit",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Cetak Edisi A4 / PDF",
+      "short_name": "Edisi A4",
+      "description": "Buka lembaran buletin lipat A4 siap cetak & unduh PDF",
+      "url": "./?view=print",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Markah Bacaan Tersimpan",
+      "short_name": "Simpanan",
+      "description": "Baca artikel yang telah disimpan secara offline",
+      "url": "./?saved=1",
+      "icons": [
+        {
+          "src": "./icon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}
