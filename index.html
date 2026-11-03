@@ -4902,6 +4902,21 @@
             msgEl.innerHTML = '<span style="color:var(--crimson-600); font-weight:700;">✕ ' + esc(err.message || err) + '</span>';
           })
           .getAdminDashboardData(pin);
+      } else if (navigator.onLine !== false) {
+        postToGasCloud({ action: 'getAdminDashboard', pin: pin }, function(res) {
+          msgEl.innerHTML = '<span style="color:var(--brand-primary); font-weight:700;">✓ Otorisasi berhasil! Panel Redaksi terbuka (Tersambung ke Google Sheets).</span>';
+          document.getElementById('adminLockBox').classList.add('hidden');
+          document.getElementById('adminDashboardContent').classList.remove('hidden');
+          const linkEl = document.getElementById('directSpreadsheetLink');
+          if (linkEl && res && res.spreadsheetUrl) {
+            STATE.spreadsheetUrl = res.spreadsheetUrl;
+            linkEl.href = res.spreadsheetUrl;
+            linkEl.style.display = 'inline-flex';
+          }
+          populateAdminDashboard(res);
+        }, function(err) {
+          msgEl.innerHTML = '<span style="color:var(--crimson-600); font-weight:700;">✕ ' + esc(err.message || err) + '</span>';
+        });
       } else {
         // Local preview mode security verification + brute-force lockout
         if (Date.now() < STATE.localLockUntil) {
@@ -5024,6 +5039,11 @@
             loadLiveBulletinFromGas();
           })
           .updateArticleStatusAdmin(pin, articleId, { status: newStatus });
+      } else if (navigator.onLine !== false) {
+        postToGasCloud({ action: 'updateArticleStatus', pin: pin, articleId: articleId, updates: { status: newStatus } }, function() {
+          unlockAdminDashboard();
+          loadLiveBulletinFromGas();
+        });
       } else {
         const target = STATE.articles.find(function(a) { return a.id === articleId; });
         if (target) target.status = newStatus;
@@ -5041,6 +5061,11 @@
             loadLiveBulletinFromGas();
           })
           .updateArticleStatusAdmin(pin, articleId, { featured: featuredBool });
+      } else if (navigator.onLine !== false) {
+        postToGasCloud({ action: 'updateArticleStatus', pin: pin, articleId: articleId, updates: { featured: featuredBool } }, function() {
+          unlockAdminDashboard();
+          loadLiveBulletinFromGas();
+        });
       } else {
         const target = STATE.articles.find(function(a) { return a.id === articleId; });
         if (target) target.featured = featuredBool;
@@ -5059,6 +5084,12 @@
             loadLiveBulletinFromGas();
           })
           .deleteArticleAdmin(pin, articleId);
+      } else if (navigator.onLine !== false) {
+        postToGasCloud({ action: 'deleteArticle', pin: pin, articleId: articleId }, function() {
+          showToast('Naskah ' + articleId + ' telah dihapus');
+          unlockAdminDashboard();
+          loadLiveBulletinFromGas();
+        });
       } else {
         STATE.articles = STATE.articles.filter(function(a) { return a.id !== articleId; });
         STATE.adminArticlesCache = STATE.adminArticlesCache.filter(function(a) { return a.id !== articleId; });
@@ -5094,6 +5125,14 @@
             fb.innerHTML = '<div class="alert-banner alert-error">✕ ' + esc(err.message || err) + '</div>';
           })
           .createEditionAdmin(pin, payload);
+      } else if (navigator.onLine !== false) {
+        postToGasCloud({ action: 'createEdition', pin: pin, payload: payload }, function() {
+          fb.innerHTML = '<div class="alert-banner alert-success">✓ Edisi baru (' + esc(payload.id) + ') berhasil ditambahkan ke Google Sheets!</div>';
+          showToast('Edisi ' + payload.id + ' berhasil diterbitkan');
+          loadLiveBulletinFromGas();
+        }, function(err) {
+          fb.innerHTML = '<div class="alert-banner alert-error">✕ ' + esc(err.message || err) + '</div>';
+        });
       } else {
         STATE.editions.push(payload);
         if (payload.setAsActive) STATE.selectedEdition = payload.id;
@@ -5133,6 +5172,18 @@
             fb.innerHTML = '<div class="alert-banner alert-error">✕ ' + esc(err.message || err) + '</div>';
           })
           .updateSettingsAdmin(pin, newSettings);
+      } else if (navigator.onLine !== false) {
+        postToGasCloud({ action: 'updateSettings', pin: pin, newSettings: newSettings }, function(res) {
+          if (newPinVal) {
+            document.getElementById('adminPinInput').value = newPinVal;
+            document.getElementById('cfgPin').value = '';
+          }
+          fb.innerHTML = '<div class="alert-banner alert-success">✓ ' + esc((res && res.message) || 'Pengaturan berhasil disimpan ke Google Sheets') + '</div>';
+          showToast('Pengaturan identitas berhasil disimpan ke Google Sheets');
+          loadLiveBulletinFromGas();
+        }, function(err) {
+          fb.innerHTML = '<div class="alert-banner alert-error">✕ ' + esc(err.message || err) + '</div>';
+        });
       } else {
         STATE.settings.bulletinName = newSettings.nama_buletin || STATE.settings.bulletinName;
         STATE.settings.madrasahMotto = newSettings.motto_madrasah || STATE.settings.madrasahMotto;
